@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TS Assistente - Widget</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .chat-widget {
+        width: 320px;
+        height: 480px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .chat-header {
+        background: #1f3c88;
+        color: #fff;
+        padding: 12px;
+        font-weight: bold;
+      }
+      .chat-messages {
+        flex: 1;
+        padding: 12px;
+        overflow-y: auto;
+        background: #f7f9fc;
+      }
+      .chat-input {
+        display: flex;
+        gap: 8px;
+        padding: 8px;
+        border-top: 1px solid #ccc;
+        background: #fff;
+      }
+      .chat-input input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .chat-input button {
+        background: #1f3c88;
+        color: #fff;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .message {
+        margin-bottom: 12px;
+      }
+      .message.assistant {
+        color: #1f3c88;
+      }
+      .message.user {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="chat-widget">
+      <div class="chat-header">TS Assistente</div>
+      <div id="chatMessages" class="chat-messages"></div>
+      <div class="chat-input">
+        <input id="chatInput" type="text" placeholder="Digite sua mensagem" />
+        <button id="sendBtn">Enviar</button>
+      </div>
+    </div>
+    <script>
+      const sessionId = `web-${Math.random().toString(36).slice(2)}`;
+      const messagesEl = document.getElementById('chatMessages');
+      const inputEl = document.getElementById('chatInput');
+      const buttonEl = document.getElementById('sendBtn');
+
+      const appendMessage = (role, content) => {
+        const el = document.createElement('div');
+        el.className = `message ${role}`;
+        el.textContent = content;
+        messagesEl.appendChild(el);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+      };
+
+      const sendMessage = async () => {
+        const text = inputEl.value.trim();
+        if (!text) return;
+        appendMessage('user', text);
+        inputEl.value = '';
+        buttonEl.disabled = true;
+        try {
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: text, sessionId })
+          });
+          const data = await response.json();
+          appendMessage('assistant', data.reply ?? 'Desculpe, algo saiu fora do esperado.');
+        } catch (error) {
+          appendMessage('assistant', 'Não consegui enviar agora. Tente novamente em instantes.');
+        } finally {
+          buttonEl.disabled = false;
+          inputEl.focus();
+        }
+      };
+
+      buttonEl.addEventListener('click', sendMessage);
+      inputEl.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          sendMessage();
+        }
+      });
+
+      appendMessage('assistant', 'Olá! Sou o TS Assistente da Tech Solutions. Como posso ajudar hoje?');
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "empresa": {
+    "nome": "Tech Solutions",
+    "missao": "Entregar soluções de software sob medida, escaláveis e seguras.",
+    "contatos": {
+      "email": "contato@techsolutions.com",
+      "telefone": "+55 11 99999-0000",
+      "horario": "Seg-Sex 9h-18h BRT"
+    }
+  },
+  "servicos": [
+    "Desenvolvimento de software sob medida",
+    "Consultoria em cloud (AWS, Azure, GCP)",
+    "Integração de sistemas e APIs",
+    "Data & Analytics",
+    "Suporte e Sustentação"
+  ],
+  "faqs": [
+    {"pergunta": "Quais serviços vocês oferecem?", "resposta": "Oferecemos software sob medida, consultoria em cloud, integrações, data & analytics e suporte."},
+    {"pergunta": "Atendem empresas de qual porte?", "resposta": "Atendemos de startups a enterprise; ajustamos o escopo conforme a necessidade."},
+    {"pergunta": "Prazos típicos de projeto?", "resposta": "MVPs entre 4–8 semanas; projetos maiores variam conforme requisitos."},
+    {"pergunta": "Como funciona o suporte?", "resposta": "Planos com SLA, atendimento Seg-Sex 9h–18h e plantões opcionais."},
+    {"pergunta": "Formas de pagamento?", "resposta": "Boleto, PIX e faturamento mensal para contratos."}
+  ]
+}
